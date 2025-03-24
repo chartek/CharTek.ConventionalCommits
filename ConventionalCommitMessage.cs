@@ -20,6 +20,25 @@ public partial class ConventionalCommitMessage(
     public bool IsNewFeature => CommitType.Equals("feat", StringComparison.InvariantCultureIgnoreCase);
     public bool IsBugFix => CommitType.Equals("fix", StringComparison.InvariantCultureIgnoreCase);
 
+    public override string ToString()
+    {
+        var typeAndScope = Scope is null 
+            ? CommitType 
+            : $"{CommitType}({Scope})";
+
+        var breakingChange = IsBreakingChange
+            ? "!" 
+            : string.Empty;
+
+        return Body is null
+            ? $"{typeAndScope}{breakingChange}: {Description}"
+            : $"""
+               {typeAndScope}{breakingChange}: {Description}
+               
+               {Body}
+               """;
+    }
+
     /// <summary>
     /// Attempt to parse a Git commit message and convert it to
     /// a <see cref="ConventionalCommitMessage"/>.
