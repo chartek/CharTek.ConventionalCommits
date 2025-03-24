@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Text;
 
@@ -55,7 +56,7 @@ public partial class ConventionalCommitMessage(
     /// successfully; otherwise, <see langword="false"/>.
     /// </returns>
     [Pure]
-    public static bool TryParse(string message, out ConventionalCommitMessage? result)
+    public static bool TryParse(string message, [NotNullWhen(true)] out ConventionalCommitMessage? result)
     {
         result = null;
         
